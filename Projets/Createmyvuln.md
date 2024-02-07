@@ -5,7 +5,6 @@
   </head>
   <body>
     <h1>Report on a Security Vulnerability Creation</h1>
-    <p>Bouguerba Gihad</p>
     <h1>Introduction</h1>
     <p>
       <br />
