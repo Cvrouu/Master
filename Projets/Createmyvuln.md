@@ -1,16 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   </head>
   <body>
-    <h1>Rapport sur une création de Vulnérabilité de Sécurité</h1>
+    <h1>Report on a Security Vulnerability Creation</h1>
     <p>Bouguerba Gihad</p>
-    <h1 >Introduction</h1>
+    <h1>Introduction</h1>
     <p>
       <br />
     </p>
-    <p>Avant tout cela nous ne savions par quoi choisir. A vrai dire j’avais quelques idées en tête mais pas assez satisfaisant. Des les premiers TP nous avions pense a simplement mettre en place une machine BadStore qui accueillera plusieurs vulnérabilités en fonction de la version choisie. Comme dans la documentation du site web officiel :</p>
+    <p>Before all this, we didn't know what to choose. To be honest, I had some ideas in mind but none were satisfying enough. From the first practical work, we thought of simply setting up a BadStore machine that would host several vulnerabilities depending on the chosen version. As in the official website documentation:</p>
     <p>
       <br/>
     </p>
@@ -31,8 +31,8 @@
     <p>
       <br />
     </p>
-    <p>En gros c’est juste une machine possédant des vulnérabilités. Sauf que non, on s’est dit que cela serait trop facile et c’est une SAE il faut qu’il y ait du boulot. Alors on a pensé à une vulnérabilité très connue dans le monde de la cyber : le Server Side Request Forgery.</p>
-    <h1>SSRF C’EST QUOI ?</h1>
+    <p>In short, it's just a machine with vulnerabilities. But no, we thought that would be too easy, and it's a SAE, there has to be work to do. So, we thought of a well-known vulnerability in the cyber world: Server Side Request Forgery.</p>
+    <h1>WHAT IS SSRF?</h1>
     <p>
       <br />
     </p>
@@ -47,13 +47,13 @@
         </table>
       </span>
     </p>
-    <p>Alors d’après nos amis de chez Portswigger : La falsification des requêtes côté serveur est une vulnérabilité de sécurité web qui permet à un attaquant d&#39;amener l&#39;application côté serveur à envoyer des requêtes à un endroit non désiré.</p>
-    <p>Dans une attaque SSRF typique, l&#39;attaquant peut amener le serveur à établir une connexion avec des services internes à l&#39;infrastructure de l&#39;organisation. Dans d&#39;autres cas, il peut être en mesure de forcer le serveur à se connecter à des systèmes externes arbitraires. Cela pourrait entraîner la fuite de données sensibles, telles que les identifiants d&#39;autorisation.</p>
+    <p>So according to our friends at Portswigger: Server-side request forgery (SSRF) is a web security vulnerability that allows an attacker to induce the server-side application to make HTTP requests to an arbitrary domain of the attacker's choosing.</p>
+    <p>In a typical SSRF attack, the attacker can make the server establish a connection with services internal to the organization's infrastructure. In other cases, they may be able to force the server to connect to arbitrary external systems. This could lead to the leakage of sensitive data, such as authorization credentials.</p>
     <p>
       <br/>
     </p>
-    <p>On a alors fabrique une maquette de sorte a ce qu’elle puisse faire en sorte de mettre</p>
-    <p>en place cette vulnérabilité :</p>
+    <p>So, we designed a model so that it could implement</p>
+    <p>this vulnerability:</p>
     <p>
       <br/>
     </p>
@@ -71,41 +71,41 @@
     <p>
       <br />
     </p>
-    <p>À la suite d’une analyse approfondie de la sécurité du système, on a identifié une vulnérabilité potentielle liée à une attaque de déni de service. Il est important de noter que cette faille diffère quelque peu des attaques SSRF conventionnelles. Mais ca reste une SSRF.</p>
-    <h1>Description de la Vulnérabilité</h1>
+    <p>Following an in-depth analysis of the system's security, we identified a potential vulnerability related to a denial of service attack. It is important to note that this flaw differs somewhat from conventional SSRF attacks. But it still remains an SSRF.</p>
+    <h1>Vulnerability Description</h1>
     <p>
       <br/>
     </p>
-    <p>L&#39;attaque en question se base sur la manipulation du champ Host dans les requêtes HTTP. L&#39;attaquant cherche à exploiter cette faille en se faisant passer pour un PC interne, afin d&#39;accéder à un serveur WEB situé dans une DMZ située en bas à droite de la maquette. Ce serveur autorise l&#39;accès uniquement depuis une adresse IP spécifique, celle-ci étant celle du serveurWEB200.</p>
+    <p>The attack in question is based on manipulating the Host field in HTTP requests. The attacker seeks to exploit this flaw by masquerading as an internal PC to gain access to a WEB server located in a DMZ at the bottom right of the model. This server allows access only from a specific IP address, which is that of serverWEB200.</p>
     <p>
       <br />
     </p>
-    <h1>Déroulement de l&#39;Attaque</h1>
+    <h1>Attack Procedure</h1>
     <p>
       <br/>
     </p>
-    <p>Etape 1 : On génère une requête falsifiée à partir de son propre PC, simulant une appartenance au sous-réseau de l&#39;entreprise.</p>
+    <p>Step 1: We generate a forged request from our own PC, simulating belonging to the company's subnet.</p>
     <p>
       <br/>
     </p>
-    <p>Etape 2 : En substituant le champ Host de la requête avec une adresse IP à deviner, on tente de contourner les restrictions d&#39;accès du serveur WEB dans la DMZ.</p>
+    <p>Step 2: By substituting the Host field of the request with a guessed IP address, we attempt to bypass the access restrictions of the WEB server in the DMZ.</p>
     <p>
       <br />
     </p>
-    <p>Etape 3 : Le serveur WEB dans la DMZ, pensant traiter une requête légitime du PC interne, répond avec un code HTTP 408.</p>
+    <p>Step 3: The WEB server in the DMZ, thinking it is dealing with a legitimate request from the internal PC, responds with an HTTP 408 code.</p>
     <p>
       <br/>
     </p>
-    <h1>Signification du Code HTTP 408</h1>
+    <h1>Meaning of HTTP 408 Code</h1>
     <p>
       <br />
     </p>
-    <p>Le code de statut de réponse HTTP 408 Request Timeout indique que le serveur souhaiterait clôturer cette connexion inutilisée. Pour certains serveurs, ce code est parfois envoyé sur une connexion inactive sans qu&#39;il y ait nécessairement eu de requête de la part du client.</p>
+    <p>The HTTP 408 Request Timeout response status code indicates that the server would like to shut down this unused connection. For some servers, this code is sometimes sent on an idle connection without necessarily having had a request from the client.</p>
     <p>
       <br />
     </p>
-    <p>Un serveur doit envoyer l&#39;en-tête Connection avec la valeur close en réponse, puisque 408 implique que le serveur a décidé de fermer la connexion plutôt que de continuer à attendre. C’est comme avec Scapy en TP en fait mais en moins chiant...</p>
-    <p>On observe donc comme prévu un http 408 du côté serveur :</p>
+    <p>A server must send the Connection header with the value close in response, as 408 implies the server decided to close the connection rather than continue to wait. It's like with Scapy in practical work actually but less annoying...</p>
+    <p>So, as expected, we observe an http 408 on the server side:</p>
     <p>
       <span>
         <table border="0" cellspacing="0" cellpadding="0">
@@ -120,31 +120,31 @@
     <p>
       <br />
     </p>
-    <h1>Conséquences Potentielles</h1>
+    <h1>Potential Consequences</h1>
     <p>
       <br/>
     </p>
-    <p>La manipulation réussie du champ Host peut entraîner une réponse HTTP 408 du serveur distant dans la DMZ. En répétant cette attaque, il est possible de provoquer un déni de service et potentiellement de faire crasher le serveur distant.</p>
+    <p>Successful manipulation of the Host field can result in an HTTP 408 response from the remote server in the DMZ. By repeating this attack, it is possible to cause a denial of service and potentially crash the remote server.</p>
     <p>
       <br/>
     </p>
-    <h1>Solution Recommandée</h1>
+    <h1>Recommended Solution</h1>
     <p>
       <br/>
     </p>
-    <p>Filtrage Strict des Requêtes: On recommande de mettre en place des filtres stricts pour les requêtes entrantes, en particulier pour le champ Host, afin de limiter la possibilité de manipulation.</p>
+    <p>Strict Request Filtering: It is recommended to implement strict filters for incoming requests, especially for the Host field, to limit the possibility of manipulation.</p>
     <p>
       <br />
     </p>
-    <p>Authentification Renforcée: Il est essentiel d&#39;implémenter des mécanismes d&#39;authentification robustes pour garantir que seuls les utilisateurs légitimes ont accès aux ressources sensibles.</p>
+    <p>Enhanced Authentication: It is essential to implement robust authentication mechanisms to ensure that only legitimate users have access to sensitive resources.</p>
     <p>
       <br />
     </p>
-    <p>Surveillance Continue : La mise en place d&#39;un système de surveillance peut détecter et réagir rapidement à des activités anormales, comme des tentatives répétées d&#39;attaques.</p>
+    <p>Continuous Monitoring: Setting up a monitoring system can detect and react quickly to abnormal activities, such as repeated attack attempts.</p>
     <p>
       <br />
     </p>
-    <h1 style="padding-left: 141pt;text-indent: 0pt;text-align: center;">Conclusion</h1>
-    <p style="padding-top: 1pt;padding-left: 5pt;text-indent: 0pt;line-height: 107%;text-align: left;">Dans les cas habituels les attaques SSRF exploitent souvent les relations de confiance pour intensifier une attaque à partir de l&#39;application vulnérable et effectuer des actions non autorisées. Ces relations de confiance peuvent exister par rapport au serveur ou par rapport à d&#39;autres systèmes dorsaux au sein de la même organisation. elle présente un risque de déni de service significatif. La mise en œuvre de mesures préventives solides est essentielle pour atténuer cette menace potentielle. Tout cela pour dire que notre ami peut devenir en un instant notre pire ennemi.</p>
+    <h1>Conclusion</h1>
+    <p>In typical cases, SSRF attacks often exploit trust relationships to escalate an attack from the vulnerable application and perform unauthorized actions. These trust relationships can exist either with the server or with other backend systems within the same organization. it presents a significant risk of denial of service. Implementing strong preventive measures is essential to mitigate this potential threat. All this to say that our friend can become our worst enemy in an instant.</p>
   </body>
 </html>
