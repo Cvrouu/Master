@@ -10,7 +10,7 @@
     <p>
       <br />
     </p>
-    <p>Before all this, we didn't know what to choose. To be honest, I had some ideas in mind but none were satisfying enough. From the first practical work, we thought of simply setting up a BadStore machine that would host several vulnerabilities depending on the chosen version. As in the official website documentation:</p>
+    <p>Before all this, i didn't know what to choose. To be honest, I had some ideas in mind but none were satisfying enough. From the first practical work, i thought of simply setting up a BadStore machine that would host several vulnerabilities depending on the chosen version. As in the official website documentation:</p>
     <p>
       <br/>
     </p>
